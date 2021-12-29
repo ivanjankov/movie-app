@@ -118,12 +118,15 @@ input[type='text']:focus {
 
 #navigation {
 	width: 80px;
-	min-height: 80vh;
+	height: 600px;
 	background-color: var(--secondary-color);
 	font-size: 16px;
-	margin: auto 2rem;
+	margin: 0px 2rem;
 	border-radius: 15px;
 	padding: 10px;
+	position: sticky;
+	top: 48%;
+	transform: translateY(-50%);
 }
 
 .menu-list {

@@ -43,7 +43,7 @@ let moviesGenre = {
 getMovies(popularApi, printPopularMovies, popularMovies);
 getMovies(upcomingMovies, printPopularMovies, comingSoonMovies);
 getMovies(categories.topRated, printPopularMovies, topRatedMovies);
-getMovies(categories.tvShows, printPopularMovies, tvShows);
+getMovies(categories.tvShows, printPopularShows, tvShows);
 
 // FUNCTIONS FOR FETCHING MOVIES
 async function getMovies(api, callback, wrapper) {
@@ -69,6 +69,31 @@ function printPopularMovies(wrapper, data) {
 											}" alt="${movie.title}" />
                 </div>
 	            <h6 class="movie-title">${movie.title}</h6>
+	            <div class="movie-length">
+	                <i class="far fa-clock"></i>
+	                <p>${getGenre(moviesGenre, movie.genre_ids)}</p>
+	            </div>
+
+	    `;
+		wrapper.appendChild(singleMovie);
+	});
+}
+function printPopularShows(wrapper, data) {
+	wrapper.innerHTML = '';
+	let listMovies = data.results;
+	listMovies = listMovies.slice(0, 5);
+
+	listMovies.forEach(function (movie) {
+		let singleMovie = document.createElement('div');
+		singleMovie.classList.add('single-movie');
+		singleMovie.setAttribute('id', movie.id);
+		singleMovie.innerHTML += `
+                <div class="img-wrapper">
+                     <img src="https://image.tmdb.org/t/p/w400${
+												movie.poster_path
+											}" alt="${movie.title}" />
+                </div>
+	            <h6 class="movie-title">${movie.name}</h6>
 	            <div class="movie-length">
 	                <i class="far fa-clock"></i>
 	                <p>${getGenre(moviesGenre, movie.genre_ids)}</p>
