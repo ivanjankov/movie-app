@@ -154,24 +154,48 @@ input[type='text']:focus {
 }
 
 /* MOVIE CAteGORY */
+
+#movies-wrapper {
+	width: 100%;
+}
+
+.single-category {
+	width: 100%;
+}
+
 .h2 {
 	font-size: 1.3rem;
 	font-weight: 400;
 }
 
 .movie-category {
-	height: 400px;
+	height: 450px;
 	margin: 2rem auto;
+	display: flex;
+	justify-content: space-between;
 }
 
 .single-movie {
-	height: 100%;
+	height: auto;
+	width: auto;
+	overflow: hidden;
+	width: 20%;
+	height: 450px;
+	margin: auto 10px;
+}
+
+.img-wrapper {
+	position: relative;
+	width: 100%;
+	height: 80%;
 }
 
 .single-movie img {
-	height: 80%;
-	width: auto;
-	border-radius: 25px;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 .movie-title {
@@ -238,3 +262,19 @@ input[type='text']:focus {
 	background-color: rgba(0, 0, 0, 0.3);
 	z-index: 0;
 }
+/* // listMovies.forEach((movie) => {
+	//     let singleMovie = document.createElement('div');
+	//     singleMovie.classList.add('single-movie');
+	//     singleMovie.innerHTML += `
+	//             <div class="img-wrapper">
+	//                  <img src="https://image.tmdb.org/t/p/w500${movie.backdrop_path}" alt="${movie.title}" />
+	//             </div>
+	//             <h6 class="movie-title">${movie.title}</h6>
+	//             <div class="movie-length">
+	//                 <i class="far fa-clock"></i>
+	//                 <p>${movie.genre_ids}</p>
+	//             </div>
+	
+	//     `;
+	//     wrapper.appendChild(singleMovie);
+	// }); */
