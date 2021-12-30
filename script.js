@@ -2,6 +2,7 @@ let popularMovies = document.getElementById('popular');
 let comingSoonMovies = document.getElementById('coming-soon');
 let topRatedMovies = document.getElementById('top-rated');
 let tvShows = document.getElementById('tv-shows');
+let movieId;
 
 let popularApi =
 	'https://api.themoviedb.org/3/discover/movie?api_key=127827045d764f32a3db753d48f9f59d&language=en-US&sort_by=popularity.desc&include_video=true&page=10&';
@@ -40,17 +41,22 @@ let moviesGenre = {
 	Western: 37,
 };
 
-getMovies(popularApi, printPopularMovies, popularMovies);
-getMovies(upcomingMovies, printPopularMovies, comingSoonMovies);
 getMovies(categories.topRated, printPopularMovies, topRatedMovies);
+getMovies(upcomingMovies, printPopularMovies, comingSoonMovies);
+getMovies(popularApi, printPopularMovies, popularMovies);
 getMovies(categories.tvShows, printPopularShows, tvShows);
+getMovieDetails();
 
 // FUNCTIONS FOR FETCHING MOVIES
 async function getMovies(api, callback, wrapper) {
 	let response = await fetch(api);
 	let data = await response.json();
-	console.log(data);
 	callback(wrapper, data);
+}
+async function getSingleMovieApi(api, callback) {
+	let response = await fetch(api);
+	let data = await response.json();
+	callback(data);
 }
 
 function printPopularMovies(wrapper, data) {
@@ -120,11 +126,37 @@ function getGenre(genrelist, currMovieGenre) {
 // MODAL FUNCIONALITY
 
 let closeModalBtn = document.getElementById('close-modal');
-let openModalBtn = document.getElementById('modal-open');
 
 closeModalBtn.addEventListener('click', () => {
+	let modalImg = document.getElementById('modal-img');
+	modalImg.setAttribute('src', '');
+
 	document.getElementById('modal').style.display = 'none';
 });
-openModalBtn.addEventListener('click', () => {
-	document.getElementById('modal').style.display = 'flex';
-});
+function getMovieDetails() {
+	setTimeout(() => {
+		let movieList = Array.from(document.querySelectorAll('.single-movie'));
+		console.log(movieList);
+		movieList.forEach((movie) => {
+			movie.addEventListener('click', () => {
+				document.getElementById('modal').style.display = 'flex';
+				let singleMovieApi = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
+				getSingleMovieApi(singleMovieApi, fillModalContent);
+				console.log(singleMovieApi);
+			});
+		});
+	}, 1000);
+}
+
+function fillModalContent(data) {
+	let modalImg = document.getElementById('modal-img');
+	let modalHeading = document.getElementById('modal-heading');
+	let modalParagraph = document.getElementById('modal-paragraph');
+
+	modalImg.setAttribute(
+		'src',
+		`https://image.tmdb.org/t/p/w400${data.poster_path}`
+	);
+	modalHeading.textContent = data.title;
+	modalParagraph.textContent = data.overview;
+}
