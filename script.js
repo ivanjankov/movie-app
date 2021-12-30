@@ -116,3 +116,15 @@ function getGenre(genrelist, currMovieGenre) {
 	}
 	return genreArr;
 }
+
+// MODAL FUNCIONALITY
+
+let closeModalBtn = document.getElementById('close-modal');
+let openModalBtn = document.getElementById('modal-open');
+
+closeModalBtn.addEventListener('click', () => {
+	document.getElementById('modal').style.display = 'none';
+});
+openModalBtn.addEventListener('click', () => {
+	document.getElementById('modal').style.display = 'flex';
+});

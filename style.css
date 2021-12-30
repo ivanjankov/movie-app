@@ -221,3 +221,76 @@ input[type='text']:focus {
 	font-size: 0.6rem;
 	color: #aaa;
 }
+
+/* MODAL */
+#modal {
+	position: fixed;
+	top: 0;
+	width: 80%;
+	height: 80%;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgb(204, 204, 204);
+	font-size: 18px;
+	border-radius: 20px;
+}
+
+#close-modal {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	border: none;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	color: #000;
+	border-radius: 8px;
+	background-color: rgb(129, 129, 129);
+}
+
+#modal-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
+	height: 80%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.movie-description {
+	font-size: 16px;
+	display: flex;
+	flex-direction: column;
+	margin-left: 10%;
+	line-height: 165%;
+	color: #525252;
+	height: 80%;
+}
+
+.movie-description h3 {
+	font-size: 1.5rem;
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+.movie-description h6 {
+	font-size: 0.9rem;
+	font-weight: 400;
+	color: #000;
+}
+
+.genre-wrapper {
+	margin: 1rem 0;
+}
+
+.movie-details {
+	list-style: none;
+	display: flex;
+}
+
+.movie-detail {
+	margin-right: 10px;
+}
