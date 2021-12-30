@@ -53,10 +53,11 @@ async function getMovies(api, callback, wrapper) {
 	let data = await response.json();
 	callback(wrapper, data);
 }
-async function getSingleMovieApi(api, callback) {
+async function getSingleMovieApi(api, callback, moviegenre) {
 	let response = await fetch(api);
 	let data = await response.json();
-	callback(data);
+	callback(data, moviegenre);
+	console.log(data);
 }
 
 function printPopularMovies(wrapper, data) {
@@ -136,27 +137,38 @@ closeModalBtn.addEventListener('click', () => {
 function getMovieDetails() {
 	setTimeout(() => {
 		let movieList = Array.from(document.querySelectorAll('.single-movie'));
-		console.log(movieList);
+		// console.log(movieList);
 		movieList.forEach((movie) => {
 			movie.addEventListener('click', () => {
+				let movieGenre = movie.children[2].children[1].textContent;
 				document.getElementById('modal').style.display = 'flex';
 				let singleMovieApi = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
-				getSingleMovieApi(singleMovieApi, fillModalContent);
+				getSingleMovieApi(singleMovieApi, fillModalContent, movieGenre);
 				console.log(singleMovieApi);
 			});
 		});
 	}, 1000);
 }
 
-function fillModalContent(data) {
-	let modalImg = document.getElementById('modal-img');
-	let modalHeading = document.getElementById('modal-heading');
-	let modalParagraph = document.getElementById('modal-paragraph');
-
-	modalImg.setAttribute(
-		'src',
-		`https://image.tmdb.org/t/p/w400${data.poster_path}`
-	);
-	modalHeading.textContent = data.title;
-	modalParagraph.textContent = data.overview;
+function fillModalContent(data, moviegenre) {
+	let modalContainer = document.getElementById('modal-container');
+	modalContainer.innerHTML = `<img id="modal-img" src="https://image.tmdb.org/t/p/w400${data.poster_path}"></img>
+	<div class="movie-description">
+			<h3 id="modal-heading">${data.title} (2016)</h3>			
+			<p id="modal-paragraph">
+				${data.overview}
+				
+			</p>
+		<div class="genre-wrapper">
+			<h6>Genre</h6>
+			<p id="genre">${moviegenre}</p>
+		</div>
+		<div class="movie-details-wrapper">
+			<h6>Movie details</h6>
+			<ul id="movie-details">
+				<li class="movie-detail">Rating: ${data.vote_average}</li>
+				<li id="runtime" class="movie-detail">Runtime: ${data.runtime} min.</li>					
+			</ul>
+		</div>
+	</div>				`;
 }

@@ -261,6 +261,11 @@ input[type='text']:focus {
 	justify-content: space-between;
 }
 
+#modal-heading {
+	font-size: 1.5rem;
+	line-height: 140%;
+}
+
 .movie-description {
 	font-size: 16px;
 	display: flex;
@@ -289,9 +294,12 @@ input[type='text']:focus {
 
 #movie-details {
 	list-style: none;
-	display: flex;
 }
 
 .movie-detail {
 	margin-right: 10px;
+}
+
+#modal-img {
+	border-radius: 10px;
 }
