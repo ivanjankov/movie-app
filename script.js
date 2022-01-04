@@ -93,7 +93,7 @@ function printPopularMovies(wrapper, data, num = 5) {
 		singleMovie.classList.add('single-movie');
 		singleMovie.setAttribute('id', movie.id);
 		singleMovie.innerHTML += `
-                <div class="img-wrapper">
+				<div class="img-wrapper">
                      <img src="https://image.tmdb.org/t/p/w400${
 												movie.poster_path
 											}" alt="${movie.title}" />
@@ -117,8 +117,7 @@ function printPopularShows(wrapper, data) {
 		let singleMovie = document.createElement('div');
 		singleMovie.classList.add('single-movie');
 		singleMovie.setAttribute('id', movie.id);
-		singleMovie.innerHTML += `
-               
+		singleMovie.innerHTML += `               
                      <img src="https://image.tmdb.org/t/p/w400${
 												movie.poster_path
 											}" alt="${movie.title}" class="movie-img" />
@@ -156,7 +155,7 @@ let closeModalBtn = document.getElementById('close-modal');
 closeModalBtn.addEventListener('click', () => {
 	let modalImg = document.getElementById('modal-img');
 	modalImg.setAttribute('src', '');
-
+	document.body.style.overflow = 'auto';
 	document.getElementById('modal').style.display = 'none';
 });
 function getMovieDetails() {
@@ -164,6 +163,8 @@ function getMovieDetails() {
 		let movieList = Array.from(document.querySelectorAll('.single-movie'));
 		movieList.forEach((movie) => {
 			movie.addEventListener('click', () => {
+				document.body.style.overflow = 'hidden';
+				console.log('hello');
 				let movieGenre = movie.children[2].children[1].textContent;
 				document.getElementById('modal').style.display = 'flex';
 				let singleMovieApi = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
@@ -195,3 +196,33 @@ function fillModalContent(data, moviegenre) {
 		</div>
 	</div>				`;
 }
+
+// WEATHER API
+
+let weatherIcon = document.getElementById('weather-icon');
+let weatherInfo = document.getElementById('weather-info');
+
+if ('geolocation' in navigator) {
+	navigator.geolocation.getCurrentPosition((position) => {
+		getWeather(position.coords.latitude, position.coords.longitude);
+	});
+} else {
+	/* geolocation IS NOT available */
+}
+
+async function getWeather(lat, lon) {
+	let response = await fetch(
+		`https:/api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=154ad2cbe7980f93e5148a9d8289e47d`
+	);
+	let data = await response.json();
+	console.log(data);
+	weatherIcon.setAttribute(
+		'src',
+		`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+	);
+	weatherInfo.innerHTML = `
+					<p class="curr-temp">${Math.ceil(data.main.temp)}&#8451;</p>
+					<p class="location">${data.name}, ${data.sys.country}</p>`;
+}
+
+getWeather();

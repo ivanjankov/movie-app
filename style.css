@@ -28,7 +28,7 @@ picture {
 .header {
 	margin-top: 1rem;
 	display: flex;
-	width: 600px;
+	max-width: 600px;
 	margin-left: auto;
 	margin-right: 2rem;
 }
@@ -108,7 +108,7 @@ input[type='text']:focus {
 }
 
 .weather-icon img {
-	height: 80%;
+	height: 100%;
 	width: auto;
 }
 
@@ -123,14 +123,14 @@ input[type='text']:focus {
 /* NAVIGATION */
 
 #navigation {
-	width: 80px;
-	height: 600px;
+	position: sticky;
+	max-width: 10%;
+	max-height: 600px;
 	background-color: var(--secondary-color);
 	font-size: 16px;
 	margin: 0px 2rem;
 	border-radius: 15px;
 	padding: 10px;
-	position: sticky;
 	top: 48%;
 	transform: translateY(-50%);
 }
@@ -215,7 +215,6 @@ input[type='text']:focus {
 
 .movie-content {
 	align-self: end;
-
 	box-shadow: 0 0.25rem 1rem rgb(0 0 0 / 0.1);
 }
 
@@ -250,9 +249,7 @@ input[type='text']:focus {
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	background-color: rgb(204, 204, 204);
-	font-size: 18px;
-	border-radius: 20px;
+	background-color: #e6f3f8;
 	display: none;
 }
 
@@ -264,9 +261,9 @@ input[type='text']:focus {
 	width: 30px;
 	height: 30px;
 	cursor: pointer;
-	color: #000;
-	border-radius: 8px;
-	background-color: rgb(129, 129, 129);
+	color: #f9eaff;
+	border-radius: 50%;
+	background-color: #aa445c;
 }
 
 #modal-container {
@@ -291,7 +288,8 @@ input[type='text']:focus {
 	flex-direction: column;
 	margin-left: 10%;
 	line-height: 165%;
-	color: #525252;
+	color: #000;
+	font-weight: 400;
 	height: 80%;
 }
 
@@ -302,9 +300,10 @@ input[type='text']:focus {
 }
 
 .movie-description h6 {
-	font-size: 0.9rem;
-	font-weight: 400;
+	font-size: 1rem;
+	font-weight: 500;
 	color: #000;
+	margin-bottom: 0.2em;
 }
 
 .genre-wrapper {
