@@ -65,6 +65,7 @@ async function getSingleMovieApi(api, callback, moviegenre) {
 	let response = await fetch(api);
 	let data = await response.json();
 	callback(data, moviegenre);
+	console.log(data);
 }
 
 function searchMovies() {
@@ -112,22 +113,25 @@ function printPopularShows(wrapper, data) {
 	wrapper.innerHTML = '';
 	let listMovies = data.results;
 	listMovies = listMovies.slice(0, 5);
+	console.log(data);
 
 	listMovies.forEach(function (movie) {
 		let singleMovie = document.createElement('div');
-		singleMovie.classList.add('single-movie');
+		singleMovie.classList.add('single-show');
 		singleMovie.setAttribute('id', movie.id);
-		singleMovie.innerHTML += `               
+		singleMovie.innerHTML += `  
+					<div class="img-wrapper">            
                      <img src="https://image.tmdb.org/t/p/w400${
 												movie.poster_path
 											}" alt="${movie.title}" class="movie-img" />
-				<div class="movie-content">
+					</div>
+				
 					<h6 class="movie-title">${movie.name}</h6>
 					<div class="movie-length">
 						<i class="far fa-clock"></i>
 						<p>${getGenre(moviesGenre, movie.genre_ids)}</p>
 					</div>
-				</div>
+				
 				
 
 	    `;
@@ -159,15 +163,27 @@ closeModalBtn.addEventListener('click', () => {
 	document.getElementById('modal').style.display = 'none';
 });
 function getMovieDetails() {
+	let singleMovieApi;
 	setTimeout(() => {
-		let movieList = Array.from(document.querySelectorAll('.single-movie'));
+		let movieList = Array.from(
+			document.querySelectorAll('.single-show, .single-movie')
+		);
+		console.log(movieList);
 		movieList.forEach((movie) => {
 			movie.addEventListener('click', () => {
 				document.body.style.overflow = 'hidden';
-				console.log('hello');
+
 				let movieGenre = movie.children[2].children[1].textContent;
 				document.getElementById('modal').style.display = 'flex';
-				let singleMovieApi = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
+
+				if (movie.getAttribute('class') == 'single-movie') {
+					singleMovieApi = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
+				} else {
+					singleMovieApi = `https://api.themoviedb.org/3/tv/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
+				}
+
+				console.log(singleMovieApi);
+
 				getSingleMovieApi(singleMovieApi, fillModalContent, movieGenre);
 			});
 		});
@@ -175,10 +191,13 @@ function getMovieDetails() {
 }
 
 function fillModalContent(data, moviegenre) {
+	console.log(data);
 	let modalContainer = document.getElementById('modal-container');
-	modalContainer.innerHTML = `<img id="modal-img" src="https://image.tmdb.org/t/p/w400${data.poster_path}"></img>
+	modalContainer.innerHTML = `<img id="modal-img" src="https://image.tmdb.org/t/p/w400${
+		data.poster_path
+	}"></img>
 	<div class="movie-description">
-			<h3 id="modal-heading">${data.title} (2016)</h3>
+			<h3 id="modal-heading">${data.title || data.name} (2016)</h3>
 			<p id="modal-paragraph">
 				${data.overview}
 
@@ -191,7 +210,9 @@ function fillModalContent(data, moviegenre) {
 			<h6>Movie details</h6>
 			<ul id="movie-details">
 				<li class="movie-detail">Rating: ${data.vote_average}</li>
-				<li id="runtime" class="movie-detail">Runtime: ${data.runtime} min.</li>
+				<li id="runtime" class="movie-detail">Runtime: ${
+					data.runtime || data.episode_run_time[0]
+				} min.</li>
 			</ul>
 		</div>
 	</div>				`;

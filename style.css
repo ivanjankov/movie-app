@@ -125,21 +125,21 @@ input[type='text']:focus {
 #navigation {
 	position: sticky;
 	max-width: 10%;
-	max-height: 600px;
+	height: min(70vh, 20rem);
 	background-color: var(--secondary-color);
 	font-size: 16px;
 	margin: 0px 2rem;
 	border-radius: 15px;
 	padding: 10px;
-	top: 48%;
+	top: 50%;
 	transform: translateY(-50%);
 }
 
 .menu-list {
-	height: 50%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 	list-style: none;
 	font-size: 12px;
@@ -205,12 +205,21 @@ input[type='text']:focus {
 .single-movie {
 	aspect-ratio: 1 / 1.5;
 	margin: 10px;
+	cursor: pointer;
+}
+.single-movie {
+	aspect-ratio: 1 / 1.5;
+	margin: 10px;
+	cursor: pointer;
 }
 
 .movie-img {
 	width: 100%;
 	aspect-ratio: 1/1.25;
 	object-fit: cover;
+}
+.img-wrapper img {
+	border-radius: 20px;
 }
 
 .movie-content {
@@ -221,6 +230,7 @@ input[type='text']:focus {
 .movie-title {
 	font-size: 1.1rem;
 	font-weight: 400;
+	margin-top: 0.7rem;
 }
 
 .movie-length {
