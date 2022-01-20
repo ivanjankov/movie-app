@@ -50,13 +50,14 @@ function functionsController() {
 	getMovies(upcomingMovies, printPopularMovies, comingSoonMovies);
 	getMovies(categories.tvShows, printPopularShows, tvShows);
 	getMovieDetails();
+	// getWeather();
 }
 
 functionsController();
 searchMovies();
 
 // FUNCTIONS FOR FETCHING MOVIES
-async function getMovies(api, callback, wrapper, num = 5) {
+async function getMovies(api, callback, wrapper, num = 20) {
 	let response = await fetch(api);
 	let data = await response.json();
 	callback(wrapper, data, num);
@@ -76,7 +77,7 @@ function searchMovies() {
 		if (searchTerm !== '') {
 			multiTitle.innerHTML = `"${e.target.value}"`;
 			searchApi = `https://api.themoviedb.org/3/search/movie?api_key=127827045d764f32a3db753d48f9f59d&language=en-US&query=${searchTerm}&page=1&include_adult=false`;
-			getMovies(searchApi, printPopularMovies, popularMovies, 10);
+			getMovies(searchApi, printPopularMovies, popularMovies, 20);
 			getMovieDetails();
 		} else if (searchTerm == '') {
 			multiTitle.innerHTML = 'Popular';
@@ -84,14 +85,14 @@ function searchMovies() {
 		}
 	});
 }
-function printPopularMovies(wrapper, data, num = 5) {
+function printPopularMovies(wrapper, data, num = 20) {
 	wrapper.innerHTML = '';
 	let listMovies = data.results;
 	listMovies = listMovies.slice(0, num);
 
 	listMovies.forEach(function (movie) {
 		let singleMovie = document.createElement('div');
-		singleMovie.classList.add('single-movie');
+		singleMovie.classList.add('swiper-slide', 'single-movie');
 		singleMovie.setAttribute('id', movie.id);
 		singleMovie.innerHTML += `
 				<div class="img-wrapper">
@@ -112,12 +113,11 @@ function printPopularMovies(wrapper, data, num = 5) {
 function printPopularShows(wrapper, data) {
 	wrapper.innerHTML = '';
 	let listMovies = data.results;
-	listMovies = listMovies.slice(0, 5);
-	console.log(data);
+	listMovies = listMovies.slice(0, 20);
 
 	listMovies.forEach(function (movie) {
 		let singleMovie = document.createElement('div');
-		singleMovie.classList.add('single-show');
+		singleMovie.classList.add('swiper-slide', 'single-show');
 		singleMovie.setAttribute('id', movie.id);
 		singleMovie.innerHTML += `  
 					<div class="img-wrapper">            
@@ -132,8 +132,6 @@ function printPopularShows(wrapper, data) {
 						<p>${getGenre(moviesGenre, movie.genre_ids)}</p>
 					</div>
 				
-				
-
 	    `;
 		wrapper.appendChild(singleMovie);
 	});
@@ -153,7 +151,6 @@ function getGenre(genrelist, currMovieGenre) {
 }
 
 // MODAL FUNCIONALITY
-
 let closeModalBtn = document.getElementById('close-modal');
 
 closeModalBtn.addEventListener('click', () => {
@@ -162,13 +159,13 @@ closeModalBtn.addEventListener('click', () => {
 	document.body.style.overflow = 'auto';
 	document.getElementById('modal').style.display = 'none';
 });
+
 function getMovieDetails() {
 	let singleMovieApi;
 	setTimeout(() => {
 		let movieList = Array.from(
 			document.querySelectorAll('.single-show, .single-movie')
 		);
-		console.log(movieList);
 		movieList.forEach((movie) => {
 			movie.addEventListener('click', () => {
 				document.body.style.overflow = 'hidden';
@@ -176,7 +173,7 @@ function getMovieDetails() {
 				let movieGenre = movie.children[2].children[1].textContent;
 				document.getElementById('modal').style.display = 'flex';
 
-				if (movie.getAttribute('class') == 'single-movie') {
+				if (movie.classList.contains('single-movie')) {
 					singleMovieApi = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
 				} else {
 					singleMovieApi = `https://api.themoviedb.org/3/tv/${movie.id}?api_key=127827045d764f32a3db753d48f9f59d&language=en-US`;
@@ -197,7 +194,7 @@ function fillModalContent(data, moviegenre) {
 		data.poster_path
 	}"></img>
 	<div class="movie-description">
-			<h3 id="modal-heading">${data.title || data.name} (2016)</h3>
+			<h3 id="modal-heading">${data.title || data.name}</h3>
 			<p id="modal-paragraph">
 				${data.overview}
 
@@ -215,11 +212,25 @@ function fillModalContent(data, moviegenre) {
 				} min.</li>
 			</ul>
 		</div>
-	</div>				`;
+	</div>`;
 }
 
-// WEATHER API
+const swiper = new Swiper('.swiper', {
+	// Optional parameters
+	direction: 'horizontal',
+	slidesPerView: 6,
+	spaceBetween: 10,
+	loop: false,
+	freeMode: true,
 
+	// Navigation arrows
+	navigation: {
+		nextEl: '.swiper-button-next',
+		prevEl: '.swiper-button-prev',
+	},
+});
+
+// WEATHER API
 let weatherIcon = document.getElementById('weather-icon');
 let weatherInfo = document.getElementById('weather-info');
 
@@ -236,7 +247,7 @@ async function getWeather(lat, lon) {
 		`https:/api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=154ad2cbe7980f93e5148a9d8289e47d`
 	);
 	let data = await response.json();
-	console.log(data);
+
 	weatherIcon.setAttribute(
 		'src',
 		`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
@@ -245,5 +256,3 @@ async function getWeather(lat, lon) {
 					<p class="curr-temp">${Math.ceil(data.main.temp)}&#8451;</p>
 					<p class="location">${data.name}, ${data.sys.country}</p>`;
 }
-
-getWeather();

@@ -167,10 +167,14 @@ input[type='text']:focus {
 }
 
 /* MOVIE CAteGORY */
+.swiper {
+	max-width: 100%;
+	height: auto;
+}
 
 #movies-wrapper {
 	max-width: 100%;
-	width: 100%;
+	max-width: 90%;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -194,30 +198,15 @@ input[type='text']:focus {
 	grid-row: 1 / 2;
 }
 
-.movie-category {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-	column-gap: 10px;
-	gap: 0.5rem;
-	margin: 2rem auto;
-}
-
 .single-movie {
 	aspect-ratio: 1 / 1.5;
 	margin: 10px;
 	cursor: pointer;
 }
-.single-movie {
-	aspect-ratio: 1 / 1.5;
-	margin: 10px;
+.single-show {
 	cursor: pointer;
 }
 
-.movie-img {
-	width: 100%;
-	aspect-ratio: 1/1.25;
-	object-fit: cover;
-}
 .img-wrapper img {
 	border-radius: 20px;
 }
@@ -250,17 +239,23 @@ input[type='text']:focus {
 	word-break: break-all;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+	color: rgb(255, 255, 255);
+}
+
 /* MODAL */
 #modal {
 	position: fixed;
 	top: 0;
-	width: 80%;
-	height: 80%;
+	width: 90%;
+	height: 90%;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
 	background-color: #e6f3f8;
 	display: none;
+	z-index: 100;
 }
 
 #close-modal {
@@ -277,12 +272,7 @@ input[type='text']:focus {
 }
 
 #modal-container {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 80%;
-	height: 80%;
+	padding: 5rem;
 	display: flex;
 	justify-content: space-between;
 }
@@ -300,7 +290,7 @@ input[type='text']:focus {
 	line-height: 165%;
 	color: #000;
 	font-weight: 400;
-	height: 80%;
+	height: 100%;
 }
 
 .movie-description h3 {
@@ -330,4 +320,40 @@ input[type='text']:focus {
 
 #modal-img {
 	border-radius: 10px;
+	min-width: auto;
+	max-height: 70%;
 }
+
+@media only screen and (max-width: 1200px) {
+	#modal-paragraph {
+		font-size: 14px;
+	}
+
+	.movie-title {
+		font-size: 0.7rem;
+	}
+	#modal-heading {
+		font-size: 1rem;
+	}
+
+	#modal-container {
+		padding: 2rem;
+	}
+}
+
+@media only screen and (max-width: 992px) {
+	#modal-paragraph {
+		font-size: 14px;
+	}
+
+	h6 {
+		font-size: 0.7rem;
+	}
+	#modal-heading {
+		font-size: 1rem;
+	}
+
+	#modal-container {
+		padding: 2rem;
+	}
+} ;
